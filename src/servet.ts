@@ -17,8 +17,8 @@ async function main() {
     //   'mongodb+srv://admin_url:c3BXlPMHlIsEPwOp@cluster0.kkqbu90.mongodb.net/frist_project?retryWrites=true&w=majority&appName=Cluster0',
     // );
 
-    app.listen(4000, () => {
-      console.log(`Example app listening on port ${4000}`);
+    app.listen(config.port, () => {
+      console.log(`Example app listening on port ${config.port}`);
     });
   } catch (error) {
     console.log(error);
