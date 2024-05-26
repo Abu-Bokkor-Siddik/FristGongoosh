@@ -18,6 +18,7 @@ Users.password= password|| (config.password_default as string)
    Users.role='student';
 // set manually id  automatic by next mission 
  Users.id= '20003400040'
+//  note its not a good pactices because 2 ta collection a write koresii.. 
    // create a user  first 
   const resultUser = await UserModel.create(Users);
 //   check successfully user create and has id and _id 
