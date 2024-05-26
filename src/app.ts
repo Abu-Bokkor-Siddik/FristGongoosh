@@ -2,6 +2,7 @@
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import { StudentsRoute } from './app/modules/students/student.route';
+import { UserRoute } from './app/modules/user/useer.route';
 
 const app: Application = express();
 // const port = 3000
@@ -10,6 +11,7 @@ app.use(cors());
 // application router will here ..
 // /api/v1/student/create-student
 app.use('/api/v1/student', StudentsRoute);
+app.use('/api/v1/users', UserRoute);
 
 app.get('/', (req: Request, res: Response) => {
   res.send('hello world');
