@@ -34,6 +34,7 @@ export type Student = {
   permanentAddress:string;
   guardian:Guardian;
   localGuardian:LocalGuardian;
+  admissionSemester:Types.ObjectId;
   profileImg?:string;
   
 };

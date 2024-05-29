@@ -1,5 +1,6 @@
 import { Schema, model, connect } from 'mongoose';
 import { Guardian, LocalGuardian, Name, Student } from './studentInterface';
+import { AcademicSemester } from '../academicSemister/academicSemester.model';
 // Schema asese mongoose theke and <Student> holo interface... and type gula mongoosh ar String boro hater hobe...
 
 // name
@@ -95,6 +96,7 @@ const studentSchema = new Schema<Student>({
   permanentAddress: { type: String, required: true },
   guardian:{type:guardantSchema,required:true},
   localGuardian:{type:localGuardSchema,required:true},
+  admissionSemester:{type:Schema.ObjectId,ref:"AcademicSemester"},
   profileImg: { type: String },
   
 });

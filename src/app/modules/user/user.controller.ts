@@ -1,8 +1,8 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { UserServics } from "./user.services";
 
 // controller here 
-const createUser = async (req:Request,res:Response)=>{
+const createUser = async (req:Request,res:Response,next:NextFunction)=>{
     try {
       // data unte pari ... param , query, req.body 
       const {password,student:studentData} = req.body;
@@ -15,7 +15,7 @@ const createUser = async (req:Request,res:Response)=>{
       data:result,
   })
     } catch (error) {
-     console.log(error)
+    next(error)
     }
  }
  export const userController ={

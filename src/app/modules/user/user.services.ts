@@ -1,8 +1,12 @@
+import { AcademicSemester } from './../academicSemister/academicSemester.model';
+import { TAcademicSemester } from './../academicSemister/academicSemester.interface';
 import config from '../../config';
+import { TAcademicSemesterCode } from '../academicSemister/academicSemester.interface';
 import { StudentsModel } from '../students/student.model';
 import { Student } from '../students/studentInterface';
 import { NewUsers, TUser } from './user.interface';
 import { UserModel } from './user.model';
+import { generateStudentId } from './user.utils';
 
 const createUserDB = async (password: string, studentData: Student) => {
    // create a empty object  
@@ -17,7 +21,14 @@ Users.password= password|| (config.password_default as string)
    // }
    Users.role='student';
 // set manually id  automatic by next mission 
- Users.id= '20003400040'
+
+
+// find academic semester info ..
+ // find academic semester info
+ const admissionSemester = await AcademicSemester.findById(
+   studentData.admissionSemester,
+ );
+ Users.id= await generateStudentId(admissionSemester)
 //  note its not a good pactices because 2 ta collection a write koresii.. 
    // create a user  first 
   const resultUser = await UserModel.create(Users);
