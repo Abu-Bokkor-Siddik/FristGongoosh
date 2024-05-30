@@ -9,6 +9,8 @@ import { UserRoute } from './app/modules/user/useer.route';
 import { globalErrorHandler } from './app/middlware/globalErrorHandler';
 import { notFound } from './app/middlware/notFound';
 import { AcademicSemesterRoutes } from './app/modules/academicSemister/academicSemester.route';
+import { AcademicFacultyRoutes } from './app/modules/academicFaculty/academicFaculty.route';
+import { AcademicDepartmentRoutes } from './app/modules/academicDepartment/academicDepartment.route';
 
 const app: Application = express();
 // const port = 3000
@@ -19,6 +21,8 @@ app.use(cors());
 app.use('/api/v1/student', StudentsRoute);
 app.use('/api/v1/users', UserRoute);
 app.use('/api/v1/semesters', AcademicSemesterRoutes);
+app.use('/api/v1/academic-faculties', AcademicFacultyRoutes);
+app.use('/api/v1/academic-departments', AcademicDepartmentRoutes);
 
 app.get('/', (req:Request, res: Response) => {
   res.send('hello world');

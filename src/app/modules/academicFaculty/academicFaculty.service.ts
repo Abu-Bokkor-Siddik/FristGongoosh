@@ -1,0 +1,36 @@
+import { TAcademicFaculty } from './academicFaculty.interface';
+import { AcademicFaculty } from './academicFaculty.model';
+
+const createAcademicFacultyIntoDB = async (payload: TAcademicFaculty) => {
+  const result = await AcademicFaculty.create(payload);
+  return result;
+};
+
+const getAllAcademicFacultiesFromDB = async () => {
+  const result = await AcademicFaculty.find();
+  return result;
+};
+// debag korbo....
+const getSingleAcademicFacultyFromDB = async (id: string) => {
+    // console.log(typeof(id),'form ')
+  const result = await AcademicFaculty.findById(id);
+//   console.log(result,'hor')
+  return result;
+};
+
+const updateAcademicFacultyIntoDB = async (
+  id: string,
+  payload: Partial<TAcademicFaculty>,
+) => {
+  const result = await AcademicFaculty.findOneAndUpdate({ _id: id }, payload, {
+    new: true,
+  });
+  return result;
+};
+
+export const AcademicFacultyServices = {
+  createAcademicFacultyIntoDB,
+  getAllAcademicFacultiesFromDB,
+  getSingleAcademicFacultyFromDB,
+  updateAcademicFacultyIntoDB,
+};
