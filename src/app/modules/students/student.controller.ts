@@ -14,7 +14,10 @@ import { catchAsync } from '../../utils/catchAsync';
 
 // getallstudent
 const getAllStudent: RequestHandler = catchAsync(async (req, res) => {
-  const result = await StudentServices.getAllStudentFormDB();
+  console.log(req.query)
+ 
+
+  const result = await StudentServices.getAllStudentFormDB(req.query);
   // costom middleware
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -45,9 +48,34 @@ const getSingleStudent = catchAsync(async (
       });
     
   });
+  const deleteStudent = catchAsync(async (req, res) => {
+    const { studentId } = req.params;
+    const result = await StudentServices.deleteStudentFromDB(studentId);
+  
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Student is deleted succesfully',
+      data: result,
+    });
+  });
+  const updateStudent = catchAsync(async (req, res) => {
+    const { studentId } = req.params;
+    const { student } = req.body;
+    const result = await StudentServices.updateStudentIntoDB(studentId, student);
+  
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Student is updated succesfully',
+      data: result,
+    });
+  });
 // export
 export const Studentcontrollers = {
   // createStudent,
   getAllStudent,
   getSingleStudent,
+  deleteStudent,
+  updateStudent,
 };

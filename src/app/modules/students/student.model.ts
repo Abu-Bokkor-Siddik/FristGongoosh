@@ -97,6 +97,14 @@ const studentSchema = new Schema<Student>({
   guardian:{type:guardantSchema,required:true},
   localGuardian:{type:localGuardSchema,required:true},
   admissionSemester:{type:Schema.ObjectId,ref:"AcademicSemester"},
+  academicDepartment: {
+    type: Schema.Types.ObjectId,
+    ref: 'AcademicDepartment',
+  },
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  },
   profileImg: { type: String },
   
 });

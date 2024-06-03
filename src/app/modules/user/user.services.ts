@@ -7,6 +7,9 @@ import { Student } from '../students/studentInterface';
 import { NewUsers, TUser } from './user.interface';
 import { UserModel } from './user.model';
 import { generateStudentId } from './user.utils';
+import mongoose from 'mongoose';
+import AppError from '../academicDepartment/academicDepartment.model';
+import httpStatus from 'http-status';
 
 const createUserDB = async (password: string, studentData: Student) => {
    // create a empty object  
@@ -28,18 +31,41 @@ Users.password= password|| (config.password_default as string)
  const admissionSemester = await AcademicSemester.findById(
    studentData.admissionSemester,
  );
- Users.id= await generateStudentId(admissionSemester)
+//  transation apply here in module 13 
+const session = await mongoose.startSession();
+ try {
+   // start transaction ...
+   session.startTransaction();
+   Users.id= await generateStudentId(admissionSemester)
 //  note its not a good pactices because 2 ta collection a write koresii.. 
-   // create a user  first 
-  const resultUser = await UserModel.create(Users);
+
+
+   // create a user  first transection part 1 
+   
+  const resultUser = await UserModel.create([Users],{session});//age silo object akhon array ...
 //   check successfully user create and has id and _id 
-if (Object.keys(resultUser).length) {
-   studentData.id = resultUser.id;
-   studentData.user= resultUser._id;
-   // new student data create 
-   const newStudent = await StudentsModel.create(studentData);
+if (!resultUser.length) {
+   throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create user');
+ }
+   studentData.id = resultUser[0].id;
+   studentData.user= resultUser[0]._id;
+   // new student data create transatation 2 
+   const newStudent = await StudentsModel.create([studentData],{session});
+   if (!newStudent.length) {
+      throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create user');
+    }
+
+    await session.commitTransaction();
+    await session.endSession();
    return newStudent;
-}
+
+   
+ } catch (error) {
+   await session.abortTransaction();
+   await session.endSession();
+   throw new Error('Failed to create student');
+ }
+ 
   
 };
 
